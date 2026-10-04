@@ -1,383 +1,685 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nuestra Historia de Amor</title>
+    <title>Para El Amor De Mi Vida ❤️</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        romance: {
+                            50: '#fff5f7',
+                            100: '#ffe6ec',
+                            200: '#fccada',
+                            300: '#f89ebd',
+                            400: '#f46a96',
+                            500: '#e83972',
+                            600: '#d11d59',
+                            700: '#b01045',
+                            800: '#92113d',
+                            900: '#7a1237',
+                            950: '#48041c',
+                        },
+                        gold: {
+                            300: '#fde047',
+                            400: '#facc15',
+                            500: '#eab308',
+                        }
+                    },
+                    fontFamily: {
+                        cursive: ['"Great Vibes"', 'cursive'],
+                        serif: ['"Playfair Display"', 'serif'],
+                        sans: ['"Montserrat"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Custom Styles -->
     <style>
-        :root {
-            --primary: #ff758c;
-            --secondary: #ff7eb3;
-            --bg-color: #fff5f7;
-            --card-bg: #ffffff;
-            --text-color: #4a4a4a;
-            --accent-color: #d4af37;
-        }
-
         body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            text-align: center;
+            background: linear-gradient(135deg, #1f0510 0%, #3d0a21 50%, #1f0510 100%);
+            color: #fce7f3;
+            overflow-x: hidden;
         }
 
-        header {
-            padding: 60px 20px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        /* Glassmorphism Card Style */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
         }
 
-        h1 { margin: 0; font-size: 2.8em; }
-        p.subtitle { font-size: 1.2em; opacity: 0.95; font-style: italic; }
-
-        .container {
-            max-width: 1000px;
-            margin: auto;
-            padding: 20px;
+        .glass-card-hover {
+            transition: all 0.4s ease;
+        }
+        .glass-card-hover:hover {
+            background: rgba(255, 255, 255, 0.09);
+            border-color: rgba(248, 158, 189, 0.4);
+            transform: translateY(-6px);
+            box-shadow: 0 15px 30px -10px rgba(209, 29, 89, 0.3);
         }
 
-        /* Contador */
-        .counter-box {
-            background: var(--card-bg);
-            padding: 25px;
-            border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-            margin: -40px auto 40px;
-            max-width: 650px;
-            position: relative;
-        }
-
-        .counter-box h2 {
-            margin-top: 0;
-            color: var(--primary);
-        }
-
-        .timer {
-            display: flex;
-            justify-content: space-around;
-            font-size: 1.1em;
-            font-weight: bold;
-            color: #555;
-        }
-
-        .timer div {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .timer span {
-            font-size: 2.2em;
-            color: var(--primary);
-        }
-
-        /* Galería de Recuerdos */
-        .galeria-section {
-            margin: 50px 0;
-        }
-
-        .galeria-section h2 {
-            color: var(--primary);
-            font-size: 2em;
-            margin-bottom: 30px;
-        }
-
-        .polaroid-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 25px;
-            padding: 10px;
-        }
-
-        .polaroid-card {
-            background: #ffffff;
-            padding: 15px 15px 25px 15px;
-            border-radius: 8px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            cursor: pointer;
-        }
-
-        .polaroid-card:hover {
-            transform: scale(1.03) rotate(1deg);
-            box-shadow: 0 12px 25px rgba(0,0,0,0.18);
-        }
-
-        .polaroid-card img {
+        /* Petals Canvas */
+        #petals-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
-            height: 280px;
-            object-fit: cover;
+            height: 100%;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        /* Glowing text effect */
+        .glow-text {
+            text-shadow: 0 0 15px rgba(248, 158, 189, 0.6), 0 0 30px rgba(209, 29, 89, 0.4);
+        }
+
+        /* Vinyl rotating animation for audio player */
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .animate-vinyl {
+            animation: spin 6s linear infinite;
+        }
+        .pause-spin {
+            animation-play-state: paused;
+        }
+
+        /* Envelope interactive animation */
+        .envelope-wrapper {
+            perspective: 1000px;
+        }
+        .letter-content {
+            transition: max-height 0.8s ease-in-out, opacity 0.8s ease-in-out, transform 0.8s ease-in-out;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transform: translateY(20px);
+        }
+        .letter-content.open {
+            max-height: 2000px;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1f0510;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #801037;
             border-radius: 4px;
         }
-
-        .polaroid-caption {
-            margin-top: 15px;
-            font-family: 'Comic Sans MS', 'Caveat', cursive, sans-serif;
-            font-size: 1.1em;
-            color: #4a4a4a;
-            font-weight: 600;
-        }
-
-        /* Capítulos */
-        .grid-capitulos {
-            display: flex;
-            flex-direction: column;
-            gap: 30px;
-            margin-top: 30px;
-        }
-
-        .capitulo-card {
-            background: var(--card-bg);
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 6px 18px rgba(0,0,0,0.06);
-            transition: transform 0.3s ease;
-            text-align: left;
-        }
-
-        .capitulo-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .capitulo-card img {
-            width: 100%;
-            height: 320px;
-            object-fit: cover;
-            display: block;
-        }
-
-        .capitulo-content {
-            padding: 25px;
-        }
-
-        .capitulo-content h3 {
-            color: var(--primary);
-            margin-top: 0;
-            font-size: 1.5em;
-        }
-
-        .capitulo-content p {
-            font-size: 1.05em;
-            line-height: 1.6;
-            color: #555;
-            margin: 0;
-        }
-
-        /* Reproductor de Música Flotante */
-        .music-player {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: white;
-            padding: 12px 22px;
-            border-radius: 30px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            z-index: 1000;
-        }
-
-        .btn-music {
-            background: var(--primary);
-            border: none;
-            color: white;
-            padding: 8px 18px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 0.95em;
-            font-weight: bold;
-            transition: background 0.2s;
-        }
-
-        .btn-music:hover {
-            background: var(--secondary);
-        }
-
-        @media (max-width: 600px) {
-            .capitulo-card img {
-                height: 220px;
-            }
-            .timer span {
-                font-size: 1.6em;
-            }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #b01045;
         }
     </style>
 </head>
-<body>
+<body class="font-sans antialiased text-pink-100 min-h-screen relative selection:bg-romance-600 selection:text-white">
 
-    <header>
-        <h1>Nuestra Historia de Amor</h1>
-        <p class="subtitle">Cada segundo a tu lado es mi lugar favorito en el mundo</p>
-    </header>
+    <!-- Canvas para Pétalos de Rosa Animados -->
+    <canvas id="petals-canvas"></canvas>
 
-    <div class="container">
-        <!-- Contador de Tiempo desde el 25 de julio de 2019 a las 7:00 PM -->
-        <div class="counter-box">
-            <h2>Tiempo Amándote</h2>
-            <div class="timer">
-                <div><span id="days">0</span>Días</div>
-                <div><span id="hours">0</span>Horas</div>
-                <div><span id="minutes">0</span>Minutos</div>
-                <div><span id="seconds">0</span>Segundos</div>
-            </div>
+    <!-- ========================================== -->
+    <!-- REPRODUCTOR DE MÚSICA FLOTANTE (AUDIO MP3) -->
+    <!-- ========================================== -->
+    <audio id="bg-music" loop>
+        <!-- INSTRUCCIONES PARA EL USUARIO: Reemplaza "tu-musica.mp3" con la ruta local o URL de tu canción favorita -->
+        <source src="musica.mp3" type="audio/mpeg">
+        Tu navegador no soporta el elemento de audio.
+    </audio>
+
+    <div class="fixed bottom-5 right-5 z-50 flex items-center gap-3">
+        <!-- Indicador de ayuda/tooltip para cambiar la canción -->
+        <div class="hidden md:flex items-center gap-2 bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-full border border-pink-500/30 text-xs text-pink-200 shadow-lg">
+            <i data-lucide="info" class="w-3.5 h-3.5 text-pink-400"></i>
+            <span>Puedes cambiar "tu-musica.mp3" en el código</span>
         </div>
 
-        <!-- Galería de Recuerdos -->
-        <section class="galeria-section">
-            <h2>📸 Galería de Recuerdos</h2>
-            <div class="polaroid-grid">
+        <!-- Tarjeta del Reproductor Flotante -->
+        <div class="glass-card bg-black/50 p-2.5 rounded-full flex items-center gap-3 border border-pink-500/30 shadow-2xl backdrop-blur-md">
+            <!-- Icono de Disco de Vinilo -->
+            <div id="vinyl-icon" class="w-10 h-10 rounded-full bg-gradient-to-tr from-pink-900 to-romance-600 flex items-center justify-center border border-pink-300/40 shadow-inner animate-vinyl pause-spin">
+                <div class="w-3 h-3 bg-black rounded-full border border-pink-300"></div>
+            </div>
+
+            <!-- Botón Play/Pause -->
+            <button id="play-pause-btn" class="w-10 h-10 rounded-full bg-romance-600 hover:bg-romance-500 text-white flex items-center justify-center transition-all duration-300 transform active:scale-95 shadow-md">
+                <i id="music-icon" data-lucide="play" class="w-5 h-5 fill-current translate-x-0.5"></i>
+            </button>
+
+            <!-- Control de Volumen (Expandible al hover) -->
+            <div class="hidden sm:flex items-center gap-2 pr-2">
+                <i data-lucide="volume-2" class="w-4 h-4 text-pink-300"></i>
+                <input type="range" id="volume-control" min="0" max="1" step="0.05" value="0.8" class="w-16 accent-romance-500 h-1 bg-pink-950 rounded-lg cursor-pointer">
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- HERO SECTION (INICIO) -->
+    <!-- ========================================== -->
+    <section class="relative min-h-screen flex items-center justify-center px-4 py-20 text-center overflow-hidden">
+        <!-- Ambient Background Light -->
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-romance-800/30 via-transparent to-transparent pointer-events-none"></div>
+
+        <div class="relative z-20 max-w-4xl mx-auto space-y-8">
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-card border border-pink-500/20 text-pink-300 text-sm tracking-widest uppercase animate-pulse">
+                <i data-lucide="heart" class="w-4 h-4 fill-pink-500 text-pink-500"></i>
+                <span>Dedicado para ti con todo mi amor</span>
+                <i data-lucide="heart" class="w-4 h-4 fill-pink-500 text-pink-500"></i>
+            </div>
+
+            <h1 class="font-cursive text-6xl sm:text-7xl md:text-9xl text-pink-200 glow-text leading-tight">
+                Para el amor de mi vida
+            </h1>
+
+            <p class="font-serif text-lg sm:text-2xl text-pink-100/90 max-w-2xl mx-auto font-light leading-relaxed italic">
+                "Si volviera a nacer, te buscaría mucho antes para poder amarte durante más tiempo."
+            </p>
+
+            <div class="pt-6">
+                <a href="#nuestra-historia" class="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-gradient-to-r from-romance-600 to-romance-800 text-white font-medium hover:from-romance-500 hover:to-romance-700 transition-all duration-300 transform hover:-translate-y-1 shadow-lg shadow-romance-900/50 border border-pink-400/30">
+                    <span>Descubrir nuestra historia</span>
+                    <i data-lucide="chevron-down" class="w-5 h-5 animate-bounce"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ========================================== -->
+    <!-- SECCIÓN: NUESTRA HISTORIA -->
+    <!-- ========================================== -->
+    <section id="nuestra-historia" class="py-24 px-4 relative z-20">
+        <div class="max-w-5xl mx-auto space-y-16">
+            
+            <div class="text-center space-y-3">
+                <h2 class="font-cursive text-5xl sm:text-6xl text-pink-300">Capítulos de Nuestro Amor</h2>
+                <div class="w-24 h-1 bg-gradient-to-r from-transparent via-romance-500 to-transparent mx-auto"></div>
+            </div>
+
+            <!-- Historia 1: La anécdota divertida -->
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+                <div class="md:col-span-5 flex justify-center">
+                    <div class="relative group w-full max-w-md">
+                        <div class="absolute -inset-1 bg-gradient-to-r from-romance-600 to-pink-400 rounded-3xl blur opacity-30 group-hover:opacity-75 transition duration-500"></div>
+                        <div class="relative rounded-3xl overflow-hidden border border-pink-400/20 glass-card">
+                            <!-- INSTRUCCIONES PARA EL USUARIO: Reemplaza "foto-historia1.jpg" con tu imagen -->
+                            <img src="foto-historia1.jpg" onerror="this.src='https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=800&q=80'" alt="Primer Encuentro" class="w-full h-80 object-cover transform group-hover:scale-105 transition duration-500">
+                        </div>
+                    </div>
+                </div>
                 
-                <div class="polaroid-card">
-                    <!-- Reemplaza "ruta_foto_1.jpg" con el nombre o URL de tu foto -->
-                    <img src="ruta_foto_1.jpg" alt="En El Salto, Puerto Rico">
-                    <div class="polaroid-caption">En El Salto, Puerto Rico 🇵🇷</div>
+                <div class="md:col-span-7 glass-card p-8 rounded-3xl space-y-4 border border-pink-500/20">
+                    <div class="inline-flex items-center gap-2 text-romance-400 text-sm font-semibold tracking-wider uppercase">
+                        <i data-lucide="sparkles" class="w-4 h-4"></i>
+                        <span>El Comienzo De Todo</span>
+                    </div>
+                    <h3 class="font-serif text-2xl sm:text-3xl text-pink-100">Aquel inolvidable primer día</h3>
+                    <p class="text-pink-200/90 leading-relaxed font-light text-base sm:text-lg">
+                            El primer día que nos conocimos fue realmente chistoso. Yo molestaba a tu papá llamandolo Tio-suegro, cuando por fin te vi, ¡me puse super nervioso! 
+                    </p>
+                    <p class="text-pink-200/90 leading-relaxed font-light text-base sm:text-lg">
+                        <span class="text-pink-300 font-semibold italic"></span>... quién iba a pensar que ese día estaba conociendo al amor de mi vida, a mi compañera eterna y a la persona que iluminaría cada uno de mis días.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Historia 2: Nuestra primera cita y camino juntos -->
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center md:flex-row-reverse">
+                <div class="md:col-span-7 md:order-1 glass-card p-8 rounded-3xl space-y-4 border border-pink-500/20">
+                    <div class="inline-flex items-center gap-2 text-romance-400 text-sm font-semibold tracking-wider uppercase">
+                        <i data-lucide="flame" class="w-4 h-4"></i>
+                        <span>Construyendo Sueños</span>
+                    </div>
+                    <h3 class="font-serif text-2xl sm:text-3xl text-pink-100">Nuestra primera cita y cada instante desde entonces</h3>
+                    <p class="text-pink-200/90 leading-relaxed font-light text-base sm:text-lg">
+                        Quizás nuestra historia no comenzó con una cita perfecta de libro de cuentos, pero construimos algo muchísimo mejor: una vida llena de recuerdos auténticos e inolvidables.
+                    </p>
+                    <p class="text-pink-200/90 leading-relaxed font-light text-base sm:text-lg">
+                        Como aquel viaje a Cuenca, donde cada rincón se convirtió en el escenario perfecto para enamorarme aún más de ti. Gracias por ser mi lugar favorito en el mundo, mi mejor amiga y el amor de mi vida.
+
+                    </p>
                 </div>
 
-                <div class="polaroid-card">
-                    <!-- Reemplaza "ruta_foto_2.jpg" con el nombre o URL de tu foto -->
-                    <img src="ruta_foto_2.jpg" alt="Juntos en la cena">
-                    <div class="polaroid-caption">Momentos Especiales ❤️</div>
+                <div class="md:col-span-5 md:order-2 flex justify-center">
+                    <div class="relative group w-full max-w-md">
+                        <div class="absolute -inset-1 bg-gradient-to-r from-pink-400 to-romance-600 rounded-3xl blur opacity-30 group-hover:opacity-75 transition duration-500"></div>
+                        <div class="relative rounded-3xl overflow-hidden border border-pink-400/20 glass-card">
+                            <!-- INSTRUCCIONES PARA EL USUARIO: Reemplaza "foto-historia2.jpg" con tu imagen -->
+                            <img src="foto-historia2.jpg" onerror="this.src='https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&w=800&q=80'" alt="Primera Cita" class="w-full h-80 object-cover transform group-hover:scale-105 transition duration-500">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- ========================================== -->
+    <!-- SECCIÓN: CONTADOR DE DÍAS DE AMOR -->
+    <!-- ========================================== -->
+    <section class="py-16 px-4 relative z-20">
+        <div class="max-w-4xl mx-auto glass-card rounded-3xl p-8 sm:p-12 border border-pink-500/30 text-center space-y-8 bg-gradient-to-b from-romance-950/40 to-black/40">
+            <div class="space-y-2">
+                <i data-lucide="clock" class="w-8 h-8 text-romance-400 mx-auto"></i>
+                <h3 class="font-serif text-2xl sm:text-3xl text-pink-200">Cada segundo a tu lado vale una vida entera</h3>
+                <p class="text-pink-300/80 text-sm">Tiempo transcurrido desde nuestro día especial</p>
+            </div>
+
+            <!-- INSTRUCCIONES PARA EL USUARIO: Cambia la fecha en el JavaScript al final del código si deseas -->
+            <div id="love-counter" class="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-2xl mx-auto">
+                <div class="glass-card p-4 rounded-2xl border border-pink-400/20">
+                    <span id="counter-days" class="block font-serif text-3xl sm:text-5xl font-bold text-pink-300">0</span>
+                    <span class="text-xs uppercase tracking-widest text-pink-200/70 mt-1 block">Días</span>
+                </div>
+                <div class="glass-card p-4 rounded-2xl border border-pink-400/20">
+                    <span id="counter-hours" class="block font-serif text-3xl sm:text-5xl font-bold text-pink-300">0</span>
+                    <span class="text-xs uppercase tracking-widest text-pink-200/70 mt-1 block">Horas</span>
+                </div>
+                <div class="glass-card p-4 rounded-2xl border border-pink-400/20">
+                    <span id="counter-minutes" class="block font-serif text-3xl sm:text-5xl font-bold text-pink-300">0</span>
+                    <span class="text-xs uppercase tracking-widest text-pink-200/70 mt-1 block">Minutos</span>
+                </div>
+                <div class="glass-card p-4 rounded-2xl border border-pink-400/20">
+                    <span id="counter-seconds" class="block font-serif text-3xl sm:text-5xl font-bold text-pink-300">0</span>
+                    <span class="text-xs uppercase tracking-widest text-pink-200/70 mt-1 block">Segundos</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ========================================== -->
+    <!-- SECCIÓN: GALERÍA DE FOTOS INTERACTIVA -->
+    <!-- ========================================== -->
+    <section class="py-24 px-4 relative z-20">
+        <div class="max-w-6xl mx-auto space-y-12">
+            <div class="text-center space-y-3">
+                <h2 class="font-cursive text-5xl sm:text-6xl text-pink-300">Nuestros Momentos Favoritos</h2>
+                <p class="text-pink-200/80 font-light max-w-xl mx-auto">Pequeños destellos de felicidad congelados en el tiempo. Haz clic en cualquier foto para ampliarla.</p>
+                <div class="w-24 h-1 bg-gradient-to-r from-transparent via-romance-500 to-transparent mx-auto mt-2"></div>
+            </div>
+
+            <!-- Grid de Fotos -->
+            <!-- INSTRUCCIONES PARA EL USUARIO: Reemplaza las rutas "foto1.jpg", "foto2.jpg", etc. por tus imágenes reales -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                
+                <!-- Foto 1 -->
+                <div class="glass-card glass-card-hover rounded-2xl overflow-hidden p-3 border border-pink-500/20 cursor-pointer gallery-item" data-title="Nuestra Sonrisa Favorita" data-desc="Ese día donde reímos hasta que nos dolió la panza.">
+                    <div class="overflow-hidden rounded-xl h-64 relative group">
+                        <img src="foto1.jpg" onerror="this.src='https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?auto=format&fit=crop&w=800&q=80'" alt="Momento 1" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                        <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center">
+                            <i data-lucide="zoom-in" class="w-8 h-8 text-pink-200"></i>
+                        </div>
+                    </div>
+                    <div class="pt-3 px-2">
+                        <h4 class="font-serif text-lg text-pink-200">Nuestra Sonrisa Favorita</h4>
+                        <p class="text-xs text-pink-300/70 italic mt-0.5">Un día lleno de luz</p>
+                    </div>
                 </div>
 
-                <div class="polaroid-card">
-                    <!-- Reemplaza "ruta_foto_3.jpg" con el nombre o URL de tu foto -->
-                    <img src="ruta_foto_3.jpg" alt="En la cascada">
-                    <div class="polaroid-caption">Aventuras en la Naturaleza 🌊</div>
+                <!-- Foto 2 -->
+                <div class="glass-card glass-card-hover rounded-2xl overflow-hidden p-3 border border-pink-500/20 cursor-pointer gallery-item" data-title="De Paseo Juntos" data-desc="Cada camino a tu lado es una aventura hermosa.">
+                    <div class="overflow-hidden rounded-xl h-64 relative group">
+                        <img src="foto2.jpg" onerror="this.src='https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=800&q=80'" alt="Momento 2" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                        <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center">
+                            <i data-lucide="zoom-in" class="w-8 h-8 text-pink-200"></i>
+                        </div>
+                    </div>
+                    <div class="pt-3 px-2">
+                        <h4 class="font-serif text-lg text-pink-200">De Paseo Juntos</h4>
+                        <p class="text-xs text-pink-300/70 italic mt-0.5">Coleccionando recuerdos</p>
+                    </div>
                 </div>
 
-                <div class="polaroid-card">
-                    <!-- Reemplaza "ruta_foto_4.jpg" con el nombre o URL de tu foto -->
-                    <img src="ruta_foto_4.jpg" alt="Juntos ante la cascada">
-                    <div class="polaroid-caption">Inolvidables Recorridos 💚</div>
+                <!-- Foto 3 -->
+                <div class="glass-card glass-card-hover rounded-2xl overflow-hidden p-3 border border-pink-500/20 cursor-pointer gallery-item" data-title="Atardeceres Específicos" data-desc="Mirando al horizonte sabiendo que tenemos un futuro juntos.">
+                    <div class="overflow-hidden rounded-xl h-64 relative group">
+                        <img src="foto3.jpg" onerror="this.src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=80'" alt="Momento 3" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                        <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center">
+                            <i data-lucide="zoom-in" class="w-8 h-8 text-pink-200"></i>
+                        </div>
+                    </div>
+                    <div class="pt-3 px-2">
+                        <h4 class="font-serif text-lg text-pink-200">Atardeceres Mágicos</h4>
+                        <p class="text-xs text-pink-300/70 italic mt-0.5">Bajo el mismo cielo</p>
+                    </div>
                 </div>
 
-                <div class="polaroid-card">
-                    <!-- Reemplaza "ruta_foto_5.jpg" con el nombre o URL de tu foto -->
-                    <img src="ruta_foto_5.jpg" alt="En el sofá con el gatito">
-                    <div class="polaroid-caption">Tardes en Casa 🐾</div>
+                <!-- Foto 4 -->
+                <div class="glass-card glass-card-hover rounded-2xl overflow-hidden p-3 border border-pink-500/20 cursor-pointer gallery-item" data-title="Abrazos Reales" data-desc="Donde el mundo desaparece y solo quedamos tú y yo.">
+                    <div class="overflow-hidden rounded-xl h-64 relative group">
+                        <img src="foto4.jpg" onerror="this.src='https://images.unsplash.com/photo-1494774157365-9e04c6720e47?auto=format&fit=crop&w=800&q=80'" alt="Momento 4" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                        <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center">
+                            <i data-lucide="zoom-in" class="w-8 h-8 text-pink-200"></i>
+                        </div>
+                    </div>
+                    <div class="pt-3 px-2">
+                        <h4 class="font-serif text-lg text-pink-200">Mi Refugio Favorito</h4>
+                        <p class="text-xs text-pink-300/70 italic mt-0.5">Tus abrazos warm</p>
+                    </div>
                 </div>
 
-                <div class="polaroid-card">
-                    <!-- Reemplaza "ruta_foto_6.jpg" con el nombre o URL de tu foto -->
-                    <img src="ruta_foto_6.jpg" alt="Abrigada en la silla">
-                    <div class="polaroid-caption">Tu Sonrisa Única 😊</div>
+                <!-- Foto 5 -->
+                <div class="glass-card glass-card-hover rounded-2xl overflow-hidden p-3 border border-pink-500/20 cursor-pointer gallery-item" data-title="Celebraciones Especiales" data-desc="Brindando siempre por nuestro amor y felicidad.">
+                    <div class="overflow-hidden rounded-xl h-64 relative group">
+                        <img src="foto5.jpg" onerror="this.src='https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=800&q=80'" alt="Momento 5" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                        <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center">
+                            <i data-lucide="zoom-in" class="w-8 h-8 text-pink-200"></i>
+                        </div>
+                    </div>
+                    <div class="pt-3 px-2">
+                        <h4 class="font-serif text-lg text-pink-200">Celebraciones</h4>
+                        <p class="text-xs text-pink-300/70 italic mt-0.5">Siempre juntos</p>
+                    </div>
                 </div>
 
-                <div class="polaroid-card">
-                    <!-- Reemplaza "ruta_foto_7.jpg" con el nombre o URL de tu foto -->
-                    <img src="ruta_foto_7.jpg" alt="En familia compartiendo">
-                    <div class="polaroid-caption">Momentos en Familia 🍦</div>
-                </div>
-
-                <div class="polaroid-card">
-                    <!-- Reemplaza "ruta_foto_8.jpg" con el nombre o URL de tu foto -->
-                    <img src="ruta_foto_8.jpg" alt="En la camioneta">
-                    <div class="polaroid-caption">Nuevos Caminos 🛻</div>
-                </div>
-
-                <div class="polaroid-card">
-                    <!-- Reemplaza "ruta_foto_9.jpg" con el nombre o URL de tu foto -->
-                    <img src="ruta_foto_9.jpg" alt="En la playa en familia">
-                    <div class="polaroid-caption">Días de Sol y Playa ☀️</div>
+                <!-- Foto 6 -->
+                <div class="glass-card glass-card-hover rounded-2xl overflow-hidden p-3 border border-pink-500/20 cursor-pointer gallery-item" data-title="Simplemente Tú" data-desc="La mujer más hermosa del planeta entero.">
+                    <div class="overflow-hidden rounded-xl h-64 relative group">
+                        <img src="foto6.jpg" onerror="this.src='https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=800&q=80'" alt="Momento 6" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                        <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center">
+                            <i data-lucide="zoom-in" class="w-8 h-8 text-pink-200"></i>
+                        </div>
+                    </div>
+                    <div class="pt-3 px-2">
+                        <h4 class="font-serif text-lg text-pink-200">Simplemente Tú</h4>
+                        <p class="text-xs text-pink-300/70 italic mt-0.5">La dueña de mi corazón</p>
+                    </div>
                 </div>
 
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Sección Capítulos de Nuestra Historia -->
-        <section id="capitulos">
-            <h2>Capítulos de Nuestra Historia</h2>
 
-            <div class="grid-capitulos">
-                
-                <!-- Capítulo 1 -->
-                <div class="capitulo-card">
-                    <img src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=1000&q=80" alt="El primer día que nos conocimos">
-                    <div class="capitulo-content">
-                        <h3>El primer día que nos conocimos</h3>
-                        <p>El día que nos conocimos, el destino tenía preparado un momento inolvidable. Yo solía molestar cariñosamente a tu papá llamándolo 'tío-abuelo', así que cuando por fin te vi a ti por primera vez, el corazón se me aceleró por completo y los nervios me ganaron al darme cuenta de lo increíblemente hermosa y especial que eras.</p>
-                    </div>
-                </div>
-
-                <!-- Capítulo 2 -->
-                <div class="capitulo-card">
-                    <img src="https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&w=1000&q=80" alt="Nuestras Aventuras">
-                    <div class="capitulo-content">
-                        <h3>Nuestras Aventuras</h3>
-                        <p>Tal vez no tuvimos una cita formal de manual, pero construimos momentos mágicos e inolvidables que superan cualquier libreto. Cada risa compartida y cada segundo de nuestras escapadas, como nuestro inolvidable viaje a Cuenca, se quedaron grabados para siempre en mi alma.</p>
-                    </div>
-                </div>
-
-                <!-- Capítulo 3 -->
-                <div class="capitulo-card">
-                    <img src="https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?auto=format&fit=crop&w=1000&q=80" alt="El 'Sí, Acepto'">
-                    <div class="capitulo-content">
-                        <h3>El "Sí, Acepto"</h3>
-                        <p>Recuerdo ese instante como si fuera hoy. Con las manos temblorosas y el corazón a mil por hora, te pedí que fueras mi compañera de vida con tu platillo favorito: un delicioso bollo de pescado. Entre nervios y amor puro, escuchar tu 'sí' se convirtió en el momento más feliz y perfecto de mi vida.</p>
-                    </div>
-                </div>
-
-                <!-- Capítulo 4 -->
-                <div class="capitulo-card">
-                    <img src="https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?auto=format&fit=crop&w=1000&q=80" alt="Hoy y Siempre">
-                    <div class="capitulo-content">
-                        <h3>Hoy y Siempre</h3>
-                        <p>Me emociona infinitamente mirar hacia adelante y soñar con todo lo que el futuro tiene reservado para nosotros. No hay meta que no quiera alcanzar ni viaje que no quiera emprender si es tomado de tu mano. Te amo hoy, mañana y por el resto de mis días.</p>
-                    </div>
-                </div>
-
+    <!-- ========================================== -->
+    <!-- MODAL / LIGHTBOX PARA VER FOTOS EN GRANDE -->
+    <!-- ========================================== -->
+    <div id="photo-modal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md hidden flex items-center justify-center p-4 transition-all duration-300">
+        <button id="close-modal" class="absolute top-6 right-6 text-pink-200 hover:text-white p-2 rounded-full bg-white/10 hover:bg-white/20 transition">
+            <i data-lucide="x" class="w-7 h-7"></i>
+        </button>
+        <div class="max-w-4xl w-full glass-card rounded-3xl overflow-hidden border border-pink-500/30 p-4 space-y-4 text-center">
+            <div class="max-h-[70vh] overflow-hidden rounded-2xl flex items-center justify-center bg-black/40">
+                <img id="modal-img" src="" alt="Vista Previa" class="max-h-[70vh] w-auto object-contain">
             </div>
-        </section>
+            <div>
+                <h3 id="modal-title" class="font-serif text-2xl text-pink-200"></h3>
+                <p id="modal-desc" class="text-pink-300/80 text-sm mt-1 font-light"></p>
+            </div>
+        </div>
     </div>
 
-    <!-- Reproductor de Música -->
-    <div class="music-player">
-        <span>🎵 I Was Made for Lovin' You</span>
-        <button class="btn-music" id="musicBtn" onclick="toggleMusic()">▶ Reproducir</button>
-        <audio id="bg-music" loop>
-            <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
-        </audio>
-    </div>
 
+    <!-- ========================================== -->
+    <!-- SECCIÓN: CARTA DE AMOR SECRETA DESPLEGABLE -->
+    <!-- ========================================== -->
+    <section class="py-24 px-4 relative z-20">
+        <div class="max-w-3xl mx-auto text-center space-y-8">
+            <div class="space-y-2">
+                <i data-lucide="mail" class="w-10 h-10 text-romance-400 mx-auto animate-bounce"></i>
+                <h2 class="font-cursive text-5xl sm:text-6xl text-pink-300">Una Carta Especial Para Ti</h2>
+                <p class="text-pink-200/80 font-light">Haz clic en el sobre para abrir mi corazón</p>
+            </div>
+
+            <!-- Botón del Sobre -->
+            <div class="envelope-wrapper">
+                <button id="toggle-letter-btn" class="group relative inline-flex items-center gap-3 px-8 py-5 rounded-2xl glass-card border border-pink-400/30 hover:border-pink-400/60 transition-all duration-300 hover:scale-105 shadow-xl bg-gradient-to-r from-romance-900/40 to-pink-950/40">
+                    <i data-lucide="mail-open" class="w-6 h-6 text-pink-300 group-hover:rotate-12 transition transform"></i>
+                    <span id="envelope-btn-text" class="font-serif text-lg text-pink-200">Abrir Mi Carta Secreta</span>
+                    <i data-lucide="sparkles" class="w-5 h-5 text-gold-400"></i>
+                </button>
+
+                <!-- Contenido Desplegable de la Carta -->
+                <div id="letter-container" class="letter-content mt-8 text-left">
+                    <div class="glass-card p-8 sm:p-12 rounded-3xl border border-pink-400/30 space-y-6 bg-gradient-to-b from-pink-950/80 via-black/90 to-romance-950/80 shadow-2xl relative">
+                        <!-- Adorno Rosa -->
+                        <div class="absolute top-4 right-6 text-pink-500/20">
+                            <i data-lucide="heart" class="w-24 h-24 fill-current"></i>
+                        </div>
+
+                        <h3 class="font-cursive text-4xl text-pink-300">Mi Esposa Hermosa,</h3>
+                        
+                        <p class="text-pink-100/90 leading-relaxed font-light text-base sm:text-lg">
+                            Hoy quería regalarte algo diferente, algo que puedas guardar y volver a leer cada vez que quieras recordar lo profundamente enamorado que estoy de ti.
+                        </p>
+
+                        <p class="text-pink-100/90 leading-relaxed font-light text-base sm:text-lg">
+                            Desde aquel día en que nos conocimos —con todos los nervios del mundo y las bromas con tu papá— supe en el fondo de mi corazón que eras alguien extraordinaria. Pero con el tiempo me demostraste que eras mucho más que eso: te convertiste en mi hogar, en mi sonrisa diaria y en el amor de mi vida.
+                        </p>
+
+                        <p class="text-pink-100/90 leading-relaxed font-light text-base sm:text-lg">
+                            Gracias por ser mi esposa, por tu bondad infinita, por aguantar mis ocurrencias y por acompañarme en cada paso de esta hermosa vida. Prometo seguir amándote, cuidándote y haciéndote feliz todos los días de nuestras vidas.
+                        </p>
+
+                        <div class="pt-6 border-t border-pink-500/20 text-right space-y-1">
+                            <p class="font-cursive text-3xl text-pink-300">Por siempre tuyo,</p>
+                            <p class="font-serif text-lg text-pink-200 font-semibold italic">Tu esposo que te ama infinitamente ❤️</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- FOOTER -->
+    <footer class="py-8 text-center text-xs text-pink-300/60 border-t border-pink-500/10 relative z-20">
+        <p>Hecho con todo el amor del mundo para ti ❤️ | Para Siempre & Siempre</p>
+    </footer>
+
+
+    <!-- ========================================== -->
+    <!-- JAVASCRIPT DE FUNCIONALIDADES -->
+    <!-- ========================================== -->
     <script>
-        // Fecha configurada: 25 de Julio de 2019 a las 7:00 PM (19:00:00)
-        const FECHA_INICIO = "2019-07-25T19:00:00";
+        // Inicializar Lucide Icons
+        lucide.createIcons();
 
-        function actualizarContador() {
-            const inicio = new Date(FECHA_INICIO);
-            const ahora = new Date();
-            const diferencia = ahora - inicio;
+        /* --- 1. REPRODUCTOR DE MÚSICA FLOTANTE --- */
+        const audio = document.getElementById('bg-music');
+        const playPauseBtn = document.getElementById('play-pause-btn');
+        const musicIcon = document.getElementById('music-icon');
+        const vinylIcon = document.getElementById('vinyl-icon');
+        const volumeControl = document.getElementById('volume-control');
 
-            const dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
-            const horas = Math.floor((diferencia / (1000 * 60 * 60)) % 24);
-            const minutos = Math.floor((diferencia / (1000 * 60)) % 60);
-            const segundos = Math.floor((diferencia / 1000) % 60);
+        // Intentar reproducción autostart si el navegador lo permite
+        let isPlaying = false;
 
-            document.getElementById('days').innerText = dias;
-            document.getElementById('hours').innerText = horas;
-            document.getElementById('minutes').innerText = minutos;
-            document.getElementById('seconds').innerText = segundos;
+        function togglePlay() {
+            if (isPlaying) {
+                audio.pause();
+                isPlaying = false;
+                musicIcon.setAttribute('data-lucide', 'play');
+                vinylIcon.classList.add('pause-spin');
+            } else {
+                audio.play().then(() => {
+                    isPlaying = true;
+                    musicIcon.setAttribute('data-lucide', 'pause');
+                    vinylIcon.classList.remove('pause-spin');
+                }).catch(err => {
+                    console.log("El navegador requiere interacción del usuario para reproducir audio:", err);
+                });
+            }
+            lucide.createIcons();
         }
 
-        setInterval(actualizarContador, 1000);
-        actualizarContador();
+        playPauseBtn.addEventListener('click', togglePlay);
 
-        // Control de música
-        const audio = document.getElementById('bg-music');
-        const musicBtn = document.getElementById('musicBtn');
+        volumeControl.addEventListener('input', (e) => {
+            audio.volume = e.target.value;
+        });
 
-        function toggleMusic() {
-            if (audio.paused) {
-                audio.play();
-                musicBtn.innerText = "⏸ Pausar";
+
+        /* --- 2. CONTADOR DE DÍAS DE AMOR --- */
+        // INSTRUCCIONES PARA EL USUARIO:
+        // Reemplaza esta fecha por el año, mes (0 = Enero, 1 = Feb, etc.), día de tu aniversario o día que se conocieron
+        // Ejemplo: new Date(2021, 5, 15) = 15 de Junio de 2021
+        const startDate = new Date(2021, 0, 1); 
+
+        function updateLoveCounter() {
+            const now = new Date();
+            const diff = now - startDate;
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+            const minutes = Math.floor((diff / 1000 / 60) % 60);
+            const seconds = Math.floor((diff / 1000) % 60);
+
+            document.getElementById('counter-days').innerText = days;
+            document.getElementById('counter-hours').innerText = hours;
+            document.getElementById('counter-minutes').innerText = minutes;
+            document.getElementById('counter-seconds').innerText = seconds;
+        }
+
+        setInterval(updateLoveCounter, 1000);
+        updateLoveCounter();
+
+
+        /* --- 3. MODAL DE GALERÍA DE FOTOS --- */
+        const modal = document.getElementById('photo-modal');
+        const modalImg = document.getElementById('modal-img');
+        const modalTitle = document.getElementById('modal-title');
+        const modalDesc = document.getElementById('modal-desc');
+        const closeModalBtn = document.getElementById('close-modal');
+        const galleryItems = document.querySelectorAll('.gallery-item');
+
+        galleryItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const img = item.querySelector('img');
+                const title = item.getAttribute('data-title');
+                const desc = item.getAttribute('data-desc');
+
+                modalImg.src = img.src;
+                modalTitle.innerText = title;
+                modalDesc.innerText = desc;
+
+                modal.classList.remove('hidden');
+            });
+        });
+
+        closeModalBtn.addEventListener('click', () => {
+            modal.classList.add('hidden');
+        });
+
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.classList.add('hidden');
+            }
+        });
+
+
+        /* --- 4. CARTA DE AMOR SECRETA DESPLEGABLE --- */
+        const toggleLetterBtn = document.getElementById('toggle-letter-btn');
+        const letterContainer = document.getElementById('letter-container');
+        const envelopeBtnText = document.getElementById('envelope-btn-text');
+
+        toggleLetterBtn.addEventListener('click', () => {
+            letterContainer.classList.toggle('open');
+            if (letterContainer.classList.contains('open')) {
+                envelopeBtnText.innerText = "Cerrar Carta";
             } else {
-                audio.pause();
-                musicBtn.innerText = "▶ Reproducir";
+                envelopeBtnText.innerText = "Abrir Mi Carta Secreta";
+            }
+        });
+
+
+        /* --- 5. ANIMACIÓN DE PÉTALOS DE ROSA EN CANVAS --- */
+        const canvas = document.getElementById('petals-canvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        const petals = [];
+        const petalCount = 35;
+
+        class Petal {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height - canvas.height;
+                this.size = Math.random() * 12 + 8;
+                this.speedY = Math.random() * 1.5 + 0.8;
+                this.speedX = Math.random() * 1 - 0.5;
+                this.angle = Math.random() * 360;
+                this.spin = Math.random() * 2 - 1;
+                this.opacity = Math.random() * 0.5 + 0.4;
+            }
+
+            update() {
+                this.y += this.speedY;
+                this.x += Math.sin(this.y * 0.01) + this.speedX;
+                this.angle += this.spin;
+
+                if (this.y > canvas.height) {
+                    this.y = -20;
+                    this.x = Math.random() * canvas.width;
+                }
+            }
+
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate((this.angle * Math.PI) / 180);
+                ctx.globalAlpha = this.opacity;
+
+                // Dibujo de un pétalo de rosa suave
+                ctx.beginPath();
+                ctx.moveTo(0, 0);
+                ctx.bezierCurveTo(-this.size, -this.size / 2, -this.size, this.size, 0, this.size);
+                ctx.bezierCurveTo(this.size, this.size, this.size, -this.size / 2, 0, 0);
+                ctx.fillStyle = '#e83972';
+                ctx.fill();
+
+                ctx.restore();
             }
         }
+
+        for (let i = 0; i < petalCount; i++) {
+            petals.push(new Petal());
+        }
+
+        function animatePetals() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            petals.forEach(petal => {
+                petal.update();
+                petal.draw();
+            });
+            requestAnimationFrame(animatePetals);
+        }
+
+        animatePetals();
     </script>
 </body>
 </html>
