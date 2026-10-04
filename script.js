@@ -1,4 +1,4 @@
-// Configurado con la fecha del 25 de Julio de 2019 a las 7:00 PM
+// Fecha de inicio: 25 de Julio de 2019 a las 7:00 PM
 const fechaInicio = new Date('2019-07-25T19:00:00').getTime();
 
 function actualizarContador() {
@@ -16,20 +16,20 @@ function actualizarContador() {
   document.getElementById('segundos').innerText = segundos < 10 ? '0' + segundos : segundos;
 }
 
-// Actualización en tiempo real segundo a segundo
+// Actualización en tiempo real
 setInterval(actualizarContador, 1000);
 actualizarContador();
 
-// Función del botón de audio
+// Control de Play/Pausa de la música MP3
 function toggleMusica() {
   const musica = document.getElementById('musicaFondo');
   const btn = document.getElementById('btnMusica');
 
   if (musica.paused) {
     musica.play();
-    btn.innerText = '🔊 Música';
+    btn.innerText = '🔊 Pausar Música';
   } else {
     musica.pause();
-    btn.innerText = '🔇 Mute';
+    btn.innerText = '🔇 Reproducir Música';
   }
 }
