@@ -8,9 +8,26 @@
 </head>
 <body>
 
+  <!-- Música de fondo -->
+  <audio id="musicaFondo" loop autoplay>
+    <source src="musica.mp3" type="audio/mpeg">
+    Tu navegador no soporta el elemento de audio.
+  </audio>
+
+  <!-- Botón de Control de Música -->
+  <button id="btnMusica" class="btn-musica" onclick="toggleMusica()">🔊 Música</button>
+
   <header class="hero">
     <h1>Nuestra Historia</h1>
-    <p class="subtitulo">Un recorrido por los momentos más especiales juntos</p>
+    <p class="subtitulo">Cada segundo a tu lado cuenta</p>
+    
+    <!-- Contador Dinámico en Vivo -->
+    <div id="contador" class="contador-container">
+      <div class="tiempo-box"><span id="dias">00</span><p>Días</p></div>
+      <div class="tiempo-box"><span id="horas">00</span><p>Horas</p></div>
+      <div class="tiempo-box"><span id="minutos">00</span><p>Minutos</p></div>
+      <div class="tiempo-box"><span id="segundos">00</span><p>Segundos</p></div>
+    </div>
   </header>
 
   <main>
@@ -21,8 +38,8 @@
           <span class="fecha">25 de Julio, 2019</span>
           <h3>El Comienzo de Todo</h3>
           <p>
-            Aquí va la historia de cómo comenzó nuestro camino juntos. Puedes escribir todos los detalles, 
-            los pensamientos y lo especial que fue ese primer momento sin necesidad de incluir imágenes.
+            El día en que nuestras vidas se cruzaron y decidimos comenzar este hermoso viaje juntos. 
+            Cada momento desde esa tarde de julio ha sido inolvidable.
           </p>
         </article>
 
@@ -30,8 +47,8 @@
           <span class="fecha">Momentos Inolvidables</span>
           <h3>Creciendo Juntos</h3>
           <p>
-            En este espacio puedes detallar las aventuras, los aprendizajes y cada pequeño paso 
-            que nos ha traído hasta el día de hoy. Cada palabra refleja lo importante que es este viaje compartido.
+            Hemos compartido risas, metas, aprendizajes y todos los pequeños detalles que hacen 
+            que nuestra relación sea tan única y especial cada día.
           </p>
         </article>
 
@@ -39,8 +56,8 @@
           <span class="fecha">El Presente y Futuro</span>
           <h3>Nuestro Camino Continúa</h3>
           <p>
-            Un mensaje dedicado a lo que seguimos construyendo día a día, lleno de metas, 
-            sueños y todo el amor que nos espera por delante.
+            Miramos hacia el futuro con la misma ilusión del primer día, listos para seguir 
+            construyendo nuestros sueños y disfrutando de cada paso juntos.
           </p>
         </article>
 
@@ -52,5 +69,6 @@
     <p>Hecho con amor ❤️</p>
   </footer>
 
+  <script src="script.js"></script>
 </body>
 </html>
