@@ -1,0 +1,88 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f9f9fb;
+  color: #333;
+  line-height: 1.6;
+}
+
+.hero {
+  background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);
+  color: #ffffff;
+  text-align: center;
+  padding: 60px 20px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.hero h1 {
+  font-size: 2.8rem;
+  font-family: 'Georgia', serif;
+  margin-bottom: 10px;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+}
+
+.hero .subtitulo {
+  font-size: 1.2rem;
+  opacity: 0.9;
+  font-weight: 300;
+}
+
+.historia-section {
+  padding: 50px 20px;
+}
+
+.container {
+  max-width: 700px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.capitulo {
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
+  border: 1px solid #f0f0f0;
+  transition: transform 0.2s ease;
+}
+
+.capitulo:hover {
+  transform: translateY(-3px);
+}
+
+.capitulo .fecha {
+  display: inline-block;
+  font-size: 0.85rem;
+  color: #e6686a;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+}
+
+.capitulo h3 {
+  font-size: 1.6rem;
+  color: #2c3e50;
+  margin-bottom: 12px;
+  font-family: 'Georgia', serif;
+}
+
+.capitulo p {
+  font-size: 1.05rem;
+  color: #555;
+  line-height: 1.8;
+}
+
+footer {
+  text-align: center;
+  padding: 30px 20px;
+  color: #888;
+  font-size: 0.9rem;
+}
