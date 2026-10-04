@@ -1,74 +1,383 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nuestra Historia</title>
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nuestra Historia de Amor</title>
+    <style>
+        :root {
+            --primary: #ff758c;
+            --secondary: #ff7eb3;
+            --bg-color: #fff5f7;
+            --card-bg: #ffffff;
+            --text-color: #4a4a4a;
+            --accent-color: #d4af37;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            text-align: center;
+        }
+
+        header {
+            padding: 60px 20px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        h1 { margin: 0; font-size: 2.8em; }
+        p.subtitle { font-size: 1.2em; opacity: 0.95; font-style: italic; }
+
+        .container {
+            max-width: 1000px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        /* Contador */
+        .counter-box {
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            margin: -40px auto 40px;
+            max-width: 650px;
+            position: relative;
+        }
+
+        .counter-box h2 {
+            margin-top: 0;
+            color: var(--primary);
+        }
+
+        .timer {
+            display: flex;
+            justify-content: space-around;
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #555;
+        }
+
+        .timer div {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .timer span {
+            font-size: 2.2em;
+            color: var(--primary);
+        }
+
+        /* Galería de Recuerdos */
+        .galeria-section {
+            margin: 50px 0;
+        }
+
+        .galeria-section h2 {
+            color: var(--primary);
+            font-size: 2em;
+            margin-bottom: 30px;
+        }
+
+        .polaroid-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            padding: 10px;
+        }
+
+        .polaroid-card {
+            background: #ffffff;
+            padding: 15px 15px 25px 15px;
+            border-radius: 8px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .polaroid-card:hover {
+            transform: scale(1.03) rotate(1deg);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.18);
+        }
+
+        .polaroid-card img {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+
+        .polaroid-caption {
+            margin-top: 15px;
+            font-family: 'Comic Sans MS', 'Caveat', cursive, sans-serif;
+            font-size: 1.1em;
+            color: #4a4a4a;
+            font-weight: 600;
+        }
+
+        /* Capítulos */
+        .grid-capitulos {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .capitulo-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+            transition: transform 0.3s ease;
+            text-align: left;
+        }
+
+        .capitulo-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .capitulo-card img {
+            width: 100%;
+            height: 320px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .capitulo-content {
+            padding: 25px;
+        }
+
+        .capitulo-content h3 {
+            color: var(--primary);
+            margin-top: 0;
+            font-size: 1.5em;
+        }
+
+        .capitulo-content p {
+            font-size: 1.05em;
+            line-height: 1.6;
+            color: #555;
+            margin: 0;
+        }
+
+        /* Reproductor de Música Flotante */
+        .music-player {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: white;
+            padding: 12px 22px;
+            border-radius: 30px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 1000;
+        }
+
+        .btn-music {
+            background: var(--primary);
+            border: none;
+            color: white;
+            padding: 8px 18px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.95em;
+            font-weight: bold;
+            transition: background 0.2s;
+        }
+
+        .btn-music:hover {
+            background: var(--secondary);
+        }
+
+        @media (max-width: 600px) {
+            .capitulo-card img {
+                height: 220px;
+            }
+            .timer span {
+                font-size: 1.6em;
+            }
+        }
+    </style>
 </head>
 <body>
 
-  <!-- Música de fondo MP3 -->
-  <audio id="musicaFondo" loop autoplay>
-    <source src="musica.mp3" type="audio/mpeg">
-    Tu navegador no soporta el elemento de audio.
-  </audio>
+    <header>
+        <h1>Nuestra Historia de Amor</h1>
+        <p class="subtitle">Cada segundo a tu lado es mi lugar favorito en el mundo</p>
+    </header>
 
-  <!-- Botón Flotante para controlar la música -->
-  <button id="btnMusica" class="btn-musica" onclick="toggleMusica()">🔊 Pausar Música</button>
+    <div class="container">
+        <!-- Contador de Tiempo desde el 25 de julio de 2019 a las 7:00 PM -->
+        <div class="counter-box">
+            <h2>Tiempo Amándote</h2>
+            <div class="timer">
+                <div><span id="days">0</span>Días</div>
+                <div><span id="hours">0</span>Horas</div>
+                <div><span id="minutes">0</span>Minutos</div>
+                <div><span id="seconds">0</span>Segundos</div>
+            </div>
+        </div>
 
-  <header class="hero">
-    <h1>Nuestra Historia</h1>
-    <p class="subtitulo">Cada segundo a tu lado cuenta</p>
-    
-    <!-- Contador Dinámico en Vivo -->
-    <div id="contador" class="contador-container">
-      <div class="tiempo-box"><span id="dias">00</span><p>Días</p></div>
-      <div class="tiempo-box"><span id="horas">00</span><p>Horas</p></div>
-      <div class="tiempo-box"><span id="minutos">00</span><p>Minutos</p></div>
-      <div class="tiempo-box"><span id="segundos">00</span><p>Segundos</p></div>
+        <!-- Galería de Recuerdos -->
+        <section class="galeria-section">
+            <h2>📸 Galería de Recuerdos</h2>
+            <div class="polaroid-grid">
+                
+                <div class="polaroid-card">
+                    <!-- Reemplaza "ruta_foto_1.jpg" con el nombre o URL de tu foto -->
+                    <img src="ruta_foto_1.jpg" alt="En El Salto, Puerto Rico">
+                    <div class="polaroid-caption">En El Salto, Puerto Rico 🇵🇷</div>
+                </div>
+
+                <div class="polaroid-card">
+                    <!-- Reemplaza "ruta_foto_2.jpg" con el nombre o URL de tu foto -->
+                    <img src="ruta_foto_2.jpg" alt="Juntos en la cena">
+                    <div class="polaroid-caption">Momentos Especiales ❤️</div>
+                </div>
+
+                <div class="polaroid-card">
+                    <!-- Reemplaza "ruta_foto_3.jpg" con el nombre o URL de tu foto -->
+                    <img src="ruta_foto_3.jpg" alt="En la cascada">
+                    <div class="polaroid-caption">Aventuras en la Naturaleza 🌊</div>
+                </div>
+
+                <div class="polaroid-card">
+                    <!-- Reemplaza "ruta_foto_4.jpg" con el nombre o URL de tu foto -->
+                    <img src="ruta_foto_4.jpg" alt="Juntos ante la cascada">
+                    <div class="polaroid-caption">Inolvidables Recorridos 💚</div>
+                </div>
+
+                <div class="polaroid-card">
+                    <!-- Reemplaza "ruta_foto_5.jpg" con el nombre o URL de tu foto -->
+                    <img src="ruta_foto_5.jpg" alt="En el sofá con el gatito">
+                    <div class="polaroid-caption">Tardes en Casa 🐾</div>
+                </div>
+
+                <div class="polaroid-card">
+                    <!-- Reemplaza "ruta_foto_6.jpg" con el nombre o URL de tu foto -->
+                    <img src="ruta_foto_6.jpg" alt="Abrigada en la silla">
+                    <div class="polaroid-caption">Tu Sonrisa Única 😊</div>
+                </div>
+
+                <div class="polaroid-card">
+                    <!-- Reemplaza "ruta_foto_7.jpg" con el nombre o URL de tu foto -->
+                    <img src="ruta_foto_7.jpg" alt="En familia compartiendo">
+                    <div class="polaroid-caption">Momentos en Familia 🍦</div>
+                </div>
+
+                <div class="polaroid-card">
+                    <!-- Reemplaza "ruta_foto_8.jpg" con el nombre o URL de tu foto -->
+                    <img src="ruta_foto_8.jpg" alt="En la camioneta">
+                    <div class="polaroid-caption">Nuevos Caminos 🛻</div>
+                </div>
+
+                <div class="polaroid-card">
+                    <!-- Reemplaza "ruta_foto_9.jpg" con el nombre o URL de tu foto -->
+                    <img src="ruta_foto_9.jpg" alt="En la playa en familia">
+                    <div class="polaroid-caption">Días de Sol y Playa ☀️</div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Sección Capítulos de Nuestra Historia -->
+        <section id="capitulos">
+            <h2>Capítulos de Nuestra Historia</h2>
+
+            <div class="grid-capitulos">
+                
+                <!-- Capítulo 1 -->
+                <div class="capitulo-card">
+                    <img src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=1000&q=80" alt="El primer día que nos conocimos">
+                    <div class="capitulo-content">
+                        <h3>El primer día que nos conocimos</h3>
+                        <p>El día que nos conocimos, el destino tenía preparado un momento inolvidable. Yo solía molestar cariñosamente a tu papá llamándolo 'tío-abuelo', así que cuando por fin te vi a ti por primera vez, el corazón se me aceleró por completo y los nervios me ganaron al darme cuenta de lo increíblemente hermosa y especial que eras.</p>
+                    </div>
+                </div>
+
+                <!-- Capítulo 2 -->
+                <div class="capitulo-card">
+                    <img src="https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&w=1000&q=80" alt="Nuestras Aventuras">
+                    <div class="capitulo-content">
+                        <h3>Nuestras Aventuras</h3>
+                        <p>Tal vez no tuvimos una cita formal de manual, pero construimos momentos mágicos e inolvidables que superan cualquier libreto. Cada risa compartida y cada segundo de nuestras escapadas, como nuestro inolvidable viaje a Cuenca, se quedaron grabados para siempre en mi alma.</p>
+                    </div>
+                </div>
+
+                <!-- Capítulo 3 -->
+                <div class="capitulo-card">
+                    <img src="https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?auto=format&fit=crop&w=1000&q=80" alt="El 'Sí, Acepto'">
+                    <div class="capitulo-content">
+                        <h3>El "Sí, Acepto"</h3>
+                        <p>Recuerdo ese instante como si fuera hoy. Con las manos temblorosas y el corazón a mil por hora, te pedí que fueras mi compañera de vida con tu platillo favorito: un delicioso bollo de pescado. Entre nervios y amor puro, escuchar tu 'sí' se convirtió en el momento más feliz y perfecto de mi vida.</p>
+                    </div>
+                </div>
+
+                <!-- Capítulo 4 -->
+                <div class="capitulo-card">
+                    <img src="https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?auto=format&fit=crop&w=1000&q=80" alt="Hoy y Siempre">
+                    <div class="capitulo-content">
+                        <h3>Hoy y Siempre</h3>
+                        <p>Me emociona infinitamente mirar hacia adelante y soñar con todo lo que el futuro tiene reservado para nosotros. No hay meta que no quiera alcanzar ni viaje que no quiera emprender si es tomado de tu mano. Te amo hoy, mañana y por el resto de mis días.</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
     </div>
-  </header>
 
-  <main>
-    <section id="nuestra-historia" class="historia-section">
-      <div class="container">
-        
-        <article class="capitulo">
-          <span class="fecha">25 de Julio, 2019</span>
-          <h3>El Comienzo de Todo</h3>
-          <p>
-            El día en que nuestras vidas se cruzaron y decidimos comenzar este hermoso viaje juntos. 
-            Cada momento desde esa tarde de julio ha sido inolvidable.
-          </p>
-        </article>
+    <!-- Reproductor de Música -->
+    <div class="music-player">
+        <span>🎵 I Was Made for Lovin' You</span>
+        <button class="btn-music" id="musicBtn" onclick="toggleMusic()">▶ Reproducir</button>
+        <audio id="bg-music" loop>
+            <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+        </audio>
+    </div>
 
-        <article class="capitulo">
-          <span class="fecha">Momentos Inolvidables</span>
-          <h3>Creciendo Juntos</h3>
-          <p>
-            Hemos compartido risas, metas, aprendizajes y todos los pequeños detalles que hacen 
-            que nuestra relación sea tan única y especial cada día.
-          </p>
-        </article>
+    <script>
+        // Fecha configurada: 25 de Julio de 2019 a las 7:00 PM (19:00:00)
+        const FECHA_INICIO = "2019-07-25T19:00:00";
 
-        <article class="capitulo">
-          <span class="fecha">El Presente y Futuro</span>
-          <h3>Nuestro Camino Continúa</h3>
-          <p>
-            Miramos hacia el futuro con la misma ilusión del primer día, listos para seguir 
-            construyendo nuestros sueños y disfrutando de cada paso juntos.
-          </p>
-        </article>
+        function actualizarContador() {
+            const inicio = new Date(FECHA_INICIO);
+            const ahora = new Date();
+            const diferencia = ahora - inicio;
 
-      </div>
-    </section>
-  </main>
+            const dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
+            const horas = Math.floor((diferencia / (1000 * 60 * 60)) % 24);
+            const minutos = Math.floor((diferencia / (1000 * 60)) % 60);
+            const segundos = Math.floor((diferencia / 1000) % 60);
 
-  <footer>
-    <p>Hecho con amor ❤️</p>
-  </footer>
+            document.getElementById('days').innerText = dias;
+            document.getElementById('hours').innerText = horas;
+            document.getElementById('minutes').innerText = minutos;
+            document.getElementById('seconds').innerText = segundos;
+        }
 
-  <script src="script.js"></script>
+        setInterval(actualizarContador, 1000);
+        actualizarContador();
+
+        // Control de música
+        const audio = document.getElementById('bg-music');
+        const musicBtn = document.getElementById('musicBtn');
+
+        function toggleMusic() {
+            if (audio.paused) {
+                audio.play();
+                musicBtn.innerText = "⏸ Pausar";
+            } else {
+                audio.pause();
+                musicBtn.innerText = "▶ Reproducir";
+            }
+        }
+    </script>
 </body>
 </html>
